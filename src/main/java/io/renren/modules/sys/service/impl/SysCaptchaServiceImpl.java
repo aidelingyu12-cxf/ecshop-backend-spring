@@ -1,11 +1,3 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package io.renren.modules.sys.service.impl;
 
 
@@ -25,9 +17,9 @@ import java.awt.image.BufferedImage;
 import java.util.Date;
 
 /**
- * 验证码
+ * 認証コード
  *
- * @author Mark sunlightcs@gmail.com
+ * @author cxf
  */
 @Service("sysCaptchaService")
 public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptchaEntity> implements SysCaptchaService {
@@ -37,15 +29,15 @@ public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptcha
     @Override
     public BufferedImage getCaptcha(String uuid) {
         if(StringUtils.isBlank(uuid)){
-            throw new RRException("uuid不能为空");
+            throw new RRException("uuidはヌルデータです。");
         }
-        //生成文字验证码
+        //文字の認証コードを生成する
         String code = producer.createText();
-
+        //認証コードを設定する
         SysCaptchaEntity captchaEntity = new SysCaptchaEntity();
         captchaEntity.setUuid(uuid);
         captchaEntity.setCode(code);
-        //5分钟后过期
+        //有効期限を５分で設定する
         captchaEntity.setExpireTime(DateUtils.addDateMinutes(new Date(), 5));
         this.save(captchaEntity);
 
@@ -59,7 +51,7 @@ public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptcha
             return false;
         }
 
-        //删除验证码
+        //認証コードを削除する
         this.removeById(uuid);
 
         if(captchaEntity.getCode().equalsIgnoreCase(code) && captchaEntity.getExpireTime().getTime() >= System.currentTimeMillis()){

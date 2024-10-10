@@ -1,11 +1,3 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package io.renren.modules.sys.controller;
 
 import io.renren.common.utils.R;
@@ -30,9 +22,9 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * 登录相关
+ * ログイン関連
  *
- * @author Mark sunlightcs@gmail.com
+ * @author cxf
  */
 @RestController
 public class SysLoginController extends AbstractController {
@@ -44,14 +36,14 @@ public class SysLoginController extends AbstractController {
 	private SysCaptchaService sysCaptchaService;
 
 	/**
-	 * 验证码
+	 * 認証コード
 	 */
 	@GetMapping("captcha.jpg")
 	public void captcha(HttpServletResponse response, String uuid)throws IOException {
 		response.setHeader("Cache-Control", "no-store, no-cache");
 		response.setContentType("image/jpeg");
 
-		//获取图片验证码
+		//画像認証コードを取得する
 		BufferedImage image = sysCaptchaService.getCaptcha(uuid);
 
 		ServletOutputStream out = response.getOutputStream();
@@ -60,26 +52,26 @@ public class SysLoginController extends AbstractController {
 	}
 
 	/**
-	 * 登录
+	 *　ログイン
 	 */
 	@PostMapping("/sys/login")
 	public Map<String, Object> login(@RequestBody SysLoginForm form)throws IOException {
 		boolean captcha = sysCaptchaService.validate(form.getUuid(), form.getCaptcha());
 		if(!captcha){
-			return R.error("验证码不正确");
+			return R.error("認証コードは不正です");
 		}
 
-		//用户信息
+		//ユーザー情報
 		SysUserEntity user = sysUserService.queryByUserName(form.getUsername());
 
 		//账号不存在、密码错误
 		if(user == null || !user.getPassword().equals(new Sha256Hash(form.getPassword(), user.getSalt()).toHex())) {
-			return R.error("账号或密码不正确");
+			return R.error("アカウントまたはパスワードは不正です");
 		}
 
 		//账号锁定
 		if(user.getStatus() == 0){
-			return R.error("账号已被锁定,请联系管理员");
+			return R.error("アカウントがロックされました、管理者へ連絡してください");
 		}
 
 		//生成token，并保存到数据库
