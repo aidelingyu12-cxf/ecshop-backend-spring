@@ -1,8 +1,5 @@
 package com.cxf.modules.sys.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.cxf.modules.sys.entity.SysCaptchaEntity;
-
 import java.awt.image.BufferedImage;
 
 /**
@@ -10,7 +7,7 @@ import java.awt.image.BufferedImage;
  *
  * @author cxf
  */
-public interface SysCaptchaService extends IService<SysCaptchaEntity> {
+public interface SysCaptchaService {
 
     /**
      * 画像認証コードを取得

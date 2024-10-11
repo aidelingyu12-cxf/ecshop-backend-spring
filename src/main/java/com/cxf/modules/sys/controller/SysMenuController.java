@@ -8,6 +8,7 @@
 
 package com.cxf.modules.sys.controller;
 
+import com.cxf.common.annotation.SysLog;
 import com.cxf.common.exception.RRException;
 import com.cxf.common.utils.Constant;
 import com.cxf.common.utils.R;
@@ -19,14 +20,10 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.cxf.common.annotation.SysLog;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.Collections;
-
 
 /**
  * 系统菜单
@@ -58,10 +55,6 @@ public class SysMenuController extends AbstractController {
 	@RequiresPermissions("sys:menu:list")
 	public List<SysMenuEntity> list(){
 		List<SysMenuEntity> menuList = sysMenuService.list();
-
-		//查询完成 对此list直接排序
-		Collections.sort(menuList);
-
 		HashMap<Long, SysMenuEntity> menuMap = new HashMap<>(12);
 		for (SysMenuEntity s : menuList) {
 			menuMap.put(s.getMenuId(), s);

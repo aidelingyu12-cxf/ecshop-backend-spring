@@ -1,6 +1,5 @@
 package com.cxf.modules.sys.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.cxf.modules.sys.entity.SysCaptchaEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,6 +9,11 @@ import org.apache.ibatis.annotations.Mapper;
  * @author cxf
  */
 @Mapper
-public interface SysCaptchaDao extends BaseMapper<SysCaptchaEntity> {
-
+public interface SysCaptchaDao {
+	
+	public void save(SysCaptchaEntity chaptcha);
+	
+	public SysCaptchaEntity getCaptcha(String uuid);
+	
+	public void removeById(String uuid);
 }
