@@ -8,7 +8,7 @@ server:
     connection-timeout: 5000ms
   port: 8080
   servlet:
-    context-path: /renren-fast
+    context-path: /ecshop
 
 spring:
   # 环境 dev|test|prod
@@ -36,7 +36,7 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: io.renren.modules.*.entity
+  typeAliasesPackage: com.cxf.modules.*.entity
   global-config:
     #数据库相关配置
     db-config:
@@ -53,7 +53,7 @@ mybatis-plus:
     jdbc-type-for-null: 'null'
 
 
-renren:
+ecshop:
   redis:
     open: false
   shiro:
@@ -61,7 +61,7 @@ renren:
   # APP模块，是通过jwt认证的，如果要使用APP模块，则需要修改【加密秘钥】
   jwt:
     # 加密秘钥
-    secret: f4e2e52034348f86b67cde581c0f9eb5[www.renren.io]
+    secret: f4e2e52034348f86b67cde581c0f9eb5[www.ecshop.io]
     # token有效时长，7天，单位秒
     expire: 604800
     header: token

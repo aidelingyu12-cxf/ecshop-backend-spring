@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>io.renren</groupId>
-	<artifactId>renren-fast</artifactId>
+	<groupId>com.cxf</groupId>
+	<artifactId>ecshop</artifactId>
 	<version>3.0.0</version>
 	<packaging>jar</packaging>
-	<description>renren-fast</description>
+	<description>ecshop</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -43,7 +43,7 @@
 		<lombok.version>1.18.4</lombok.version>
 
 		<!--wagon plugin 配置-->
-		<service-path>/work/renren</service-path>
+		<service-path>/work/ecshop</service-path>
 		<pack-name>${project.artifactId}-${project.version}.jar</pack-name>
 		<remote-addr>192.168.1.10:22</remote-addr>
 		<remote-username>root</remote-username>
@@ -273,8 +273,8 @@
 					<commands>
 						<!-- Kill Old Process -->
 						<command>kill -9 `ps -ef |grep ${project.artifactId}.jar|grep -v "grep" |awk '{print $2}'`</command>
-						<!-- Restart jar package，write result into renren.log -->
-						<command><![CDATA[nohup java -jar ${service-path}/${pack-name} --spring.profiles.active=test > ${service-path}/renren.log 2>&1 & ]]></command>
+						<!-- Restart jar package，write result into ecshop.log -->
+						<command><![CDATA[nohup java -jar ${service-path}/${pack-name} --spring.profiles.active=test > ${service-path}/ecshop.log 2>&1 & ]]></command>
 						<command><![CDATA[netstat -nptl]]></command>
 						<command><![CDATA[ps -ef | grep java | grep -v grep]]></command>
 					</commands>
@@ -296,7 +296,7 @@
 					<!--</execution>-->
 				<!--</executions>-->
 				<configuration>
-					<imageName>renren/fast</imageName>
+					<imageName>ecshop</imageName>
 					<dockerDirectory>${project.basedir}</dockerDirectory>
 					<resources>
 						<resource>
