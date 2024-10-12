@@ -64,24 +64,24 @@ public class SysLoginController extends AbstractController {
 		//ユーザー情報
 		SysUserEntity user = sysUserService.queryByUserName(form.getUsername());
 
-		//账号不存在、密码错误
+		//アカウントが存在しない、パスワードが間違った場合
 		if(user == null || !user.getPassword().equals(new Sha256Hash(form.getPassword(), user.getSalt()).toHex())) {
 			return R.error("アカウントまたはパスワードは不正です");
 		}
 
-		//账号锁定
+		//アカウントがロックされた場合
 		if(user.getStatus() == 0){
 			return R.error("アカウントがロックされました、管理者へ連絡してください");
 		}
 
-		//生成token，并保存到数据库
+		//tokenを生成する
 		R r = sysUserTokenService.createToken(user.getUserId());
 		return r;
 	}
 
 
 	/**
-	 * 退出
+	 * ログアウト
 	 */
 	@PostMapping("/sys/logout")
 	public R logout() {
