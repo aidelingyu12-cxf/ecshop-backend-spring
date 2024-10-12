@@ -3,7 +3,25 @@
 
 <mapper namespace="com.cxf.modules.sys.dao.SysUserTokenDao">
 
+	<!-- tokenによって、TOKEN情報を抽出する -->
 	<select id="queryByToken" resultType="com.cxf.modules.sys.entity.SysUserTokenEntity">
 		select * from sys_user_token where token = #{value}
 	</select>
+	
+	<!-- userIdによって、TOKEN情報を抽出する -->
+	<select id="getById" resultType="com.cxf.modules.sys.entity.SysUserTokenEntity">
+		select * from sys_user_token where user_id = #{userId}
+	</select>
+
+	<!-- TOKEN情報を保存する -->
+	<insert id="save" parameterType="com.cxf.modules.sys.entity.SysUserTokenEntity">
+		insert into sys_user_token(user_id, token, expire_time, update_time) 
+		value(#{userId}, #{token}, #{expireTime}, #{updateTime})
+	</insert>
+
+	<!-- TOKEN情報を更新する -->
+	<update id="updateById" parameterType="com.cxf.modules.sys.entity.SysUserTokenEntity">
+		update sys_user_token set token=#{token}, expire_time=#{expireTime}, 
+		update_time=#{updateTime} where user_id = #{userId}
+	</update>
 </mapper>

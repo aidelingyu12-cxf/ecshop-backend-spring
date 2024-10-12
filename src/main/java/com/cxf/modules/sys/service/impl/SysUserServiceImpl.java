@@ -32,6 +32,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 
 /**
  * 系统用户
@@ -44,6 +46,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	private SysUserRoleService sysUserRoleService;
 	@Autowired
 	private SysRoleService sysRoleService;
+	@Resource
+	private SysUserDao sysUserDao;
 
 	@Override
 	public PageUtils queryPage(Map<String, Object> params) {
@@ -72,7 +76,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
 	@Override
 	public SysUserEntity queryByUserName(String username) {
-		return baseMapper.queryByUserName(username);
+		return sysUserDao.queryByUserName(username);
 	}
 
 	@Override

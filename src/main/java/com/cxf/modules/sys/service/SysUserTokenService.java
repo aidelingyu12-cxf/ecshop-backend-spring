@@ -1,33 +1,23 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package com.cxf.modules.sys.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.cxf.common.utils.R;
-import com.cxf.modules.sys.entity.SysUserTokenEntity;
 
 /**
- * 用户Token
+ * Token
  *
- * @author Mark sunlightcs@gmail.com
+ * @author cxf
  */
-public interface SysUserTokenService extends IService<SysUserTokenEntity> {
+public interface SysUserTokenService {
 
 	/**
-	 * 生成token
-	 * @param userId  用户ID
+	 * tokenを生成する
+	 * @param userId  ユーザーID
 	 */
 	R createToken(long userId);
 
 	/**
-	 * 退出，修改token值
-	 * @param userId  用户ID
+	 * ログアウト
+	 * @param userId  ユーザーID
 	 */
 	void logout(long userId);
 

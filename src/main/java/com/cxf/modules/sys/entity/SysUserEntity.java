@@ -38,15 +38,15 @@ public class SysUserEntity implements Serializable {
 	private Long userId;
 
 	/**
-	 * 用户名
+	 * ユーザネーム
 	 */
-	@NotBlank(message="用户名不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	@NotBlank(message="ユーザネームはヌルです！", groups = {AddGroup.class, UpdateGroup.class})
 	private String username;
 
 	/**
-	 * 密码
+	 * パスワード
 	 */
-	@NotBlank(message="密码不能为空", groups = AddGroup.class)
+	@NotBlank(message="パスワードはヌルです！", groups = AddGroup.class)
 	private String password;
 
 	/**
@@ -55,10 +55,10 @@ public class SysUserEntity implements Serializable {
 	private String salt;
 
 	/**
-	 * 邮箱
+	 * メールアドレス
 	 */
-	@NotBlank(message="邮箱不能为空", groups = {AddGroup.class, UpdateGroup.class})
-	@Email(message="邮箱格式不正确", groups = {AddGroup.class, UpdateGroup.class})
+	@NotBlank(message="メールアドレスはヌルです！", groups = {AddGroup.class, UpdateGroup.class})
+	@Email(message="メールアドレスのフォーマットは不正です！", groups = {AddGroup.class, UpdateGroup.class})
 	private String email;
 
 	/**

@@ -17,6 +17,7 @@
 		where ur.user_id = #{userId}
 	</select>
 	
+	<!-- ユーザネームによって、ユーザー情報を抽出する --> 
 	<select id="queryByUserName" resultType="com.cxf.modules.sys.entity.SysUserEntity">
 		select * from sys_user where username = #{username}
 	</select>

@@ -37,7 +37,7 @@ public interface SysUserService extends IService<SysUserEntity> {
 	List<Long> queryAllMenuId(Long userId);
 
 	/**
-	 * 根据用户名，查询系统用户
+	 * ユーザネームによって、ユーザーの情報を抽出する
 	 */
 	SysUserEntity queryByUserName(String username);
 

@@ -1,14 +1,5 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package com.cxf.modules.sys.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cxf.common.utils.R;
 import com.cxf.modules.sys.dao.SysUserTokenDao;
 import com.cxf.modules.sys.entity.SysUserTokenEntity;
@@ -18,41 +9,48 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+import javax.annotation.Resource;
+
 
 @Service("sysUserTokenService")
-public class SysUserTokenServiceImpl extends ServiceImpl<SysUserTokenDao, SysUserTokenEntity> implements SysUserTokenService {
-	//12小时后过期
+public class SysUserTokenServiceImpl implements SysUserTokenService {
+	
+	@Resource
+	private SysUserTokenDao sysUserTokenDao;
+	//12時間後有効期限切れ
 	private final static int EXPIRE = 3600 * 12;
 
 
 	@Override
 	public R createToken(long userId) {
-		//生成一个token
+		//tokenを生成する
 		String token = TokenGenerator.generateValue();
 
-		//当前时间
+		//現在の時間
 		Date now = new Date();
-		//过期时间
+		//有効期間
 		Date expireTime = new Date(now.getTime() + EXPIRE * 1000);
 
-		//判断是否生成过token
-		SysUserTokenEntity tokenEntity = this.getById(userId);
+		SysUserTokenEntity tokenEntity = sysUserTokenDao.getById(userId);
+		//tokenが既に存在するかを判断する
 		if(tokenEntity == null){
+			//tokenが存在しない場合、新しいtokenを設定する
 			tokenEntity = new SysUserTokenEntity();
 			tokenEntity.setUserId(userId);
 			tokenEntity.setToken(token);
 			tokenEntity.setUpdateTime(now);
 			tokenEntity.setExpireTime(expireTime);
 
-			//保存token
-			this.save(tokenEntity);
+			//tokenを保存する
+			sysUserTokenDao.save(tokenEntity);
 		}else{
+			//tokenが存在する場合、古いtokenを更新する
 			tokenEntity.setToken(token);
 			tokenEntity.setUpdateTime(now);
 			tokenEntity.setExpireTime(expireTime);
 
-			//更新token
-			this.updateById(tokenEntity);
+			//tokenを更新する
+			sysUserTokenDao.updateById(tokenEntity);
 		}
 
 		R r = R.ok().put("token", token).put("expire", EXPIRE);
@@ -62,13 +60,13 @@ public class SysUserTokenServiceImpl extends ServiceImpl<SysUserTokenDao, SysUse
 
 	@Override
 	public void logout(long userId) {
-		//生成一个token
+		//tokenを生成する
 		String token = TokenGenerator.generateValue();
 
-		//修改token
+		//tokenを更新する
 		SysUserTokenEntity tokenEntity = new SysUserTokenEntity();
 		tokenEntity.setUserId(userId);
 		tokenEntity.setToken(token);
-		this.updateById(tokenEntity);
+		sysUserTokenDao.updateById(tokenEntity);
 	}
 }
