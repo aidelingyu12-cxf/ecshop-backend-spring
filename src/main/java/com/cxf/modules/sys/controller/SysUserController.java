@@ -68,22 +68,21 @@ public class SysUserController extends AbstractController {
 	}
 	
 	/**
-	 * 修改登录用户密码
+	 * パスワードを修正する
 	 */
 	@SysLog("修改密码")
 	@PostMapping("/password")
 	public R password(@RequestBody PasswordForm form){
-		Assert.isBlank(form.getNewPassword(), "新密码不为能空");
+		Assert.isBlank(form.getNewPassword(), "新しいパスワードがヌルです！");
 		
-		//sha256加密
+		//sha256
 		String password = new Sha256Hash(form.getPassword(), getUser().getSalt()).toHex();
-		//sha256加密
-		String newPassword = new Sha256Hash(form.getNewPassword(), getUser().getSalt()).toHex();
-				
-		//更新密码
+		//sha256
+		String newPassword = new Sha256Hash(form.getNewPassword(), getUser().getSalt()).toHex();		
+		//パスワードを更新する
 		boolean flag = sysUserService.updatePassword(getUserId(), password, newPassword);
 		if(!flag){
-			return R.error("原密码不正确");
+			return R.error("元のパスワードが不正です");
 		}
 		
 		return R.ok();

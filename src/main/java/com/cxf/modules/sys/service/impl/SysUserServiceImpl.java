@@ -120,10 +120,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
 	@Override
 	public boolean updatePassword(Long userId, String password, String newPassword) {
-		SysUserEntity userEntity = new SysUserEntity();
-		userEntity.setPassword(newPassword);
-		return this.update(userEntity,
-				new QueryWrapper<SysUserEntity>().eq("user_id", userId).eq("password", password));
+		
+		if(password.equals(newPassword))
+			return false;
+		Integer updateRes = sysUserDao.updatePassword(userId, newPassword);
+		
+		if(updateRes > 0)
+			return true;
+		else
+			return false;
 	}
 	
 	/**

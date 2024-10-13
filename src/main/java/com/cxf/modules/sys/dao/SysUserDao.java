@@ -1,11 +1,3 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package com.cxf.modules.sys.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -15,9 +7,9 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * 系统用户
+ * システムユーザー
  *
- * @author Mark sunlightcs@gmail.com
+ * @author cxf
  */
 @Mapper
 public interface SysUserDao extends BaseMapper<SysUserEntity> {
@@ -34,8 +26,18 @@ public interface SysUserDao extends BaseMapper<SysUserEntity> {
 	List<Long> queryAllMenuId(Long userId);
 	
 	/**
-	 * 根据用户名，查询系统用户
+	 * ユーザネームによって、ユーザー情報を検索する
 	 */
 	SysUserEntity queryByUserName(String username);
+	
+	/**
+	 * ユーザIdによって、ユーザー情報を検索する
+	 */
+	SysUserEntity queryByUserId(Long userId);
+	
+	/**
+	 * ユーザIdによって、パスワードを更新する
+	 */
+	Integer updatePassword(Long userId, String password);
 
 }

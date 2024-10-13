@@ -42,25 +42,25 @@ public interface SysUserService extends IService<SysUserEntity> {
 	SysUserEntity queryByUserName(String username);
 
 	/**
-	 * 保存用户
+	 * ユーザー情報を保存する
 	 */
 	void saveUser(SysUserEntity user);
 	
 	/**
-	 * 修改用户
+	 * ユーザー情報を変える
 	 */
 	void update(SysUserEntity user);
 	
 	/**
-	 * 删除用户
+	 * 複数ユーザーを削除する
 	 */
 	void deleteBatch(Long[] userIds);
 
 	/**
-	 * 修改密码
-	 * @param userId       用户ID
-	 * @param password     原密码
-	 * @param newPassword  新密码
+	 * パスワードを変える
+	 * @param userId       ユーザーID
+	 * @param password     古いパスワード
+	 * @param newPassword  新しいパスワード
 	 */
 	boolean updatePassword(Long userId, String password, String newPassword);
 }
