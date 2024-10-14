@@ -2,7 +2,6 @@ package com.cxf.modules.sys.controller;
 
 import com.cxf.common.utils.R;
 import com.cxf.modules.sys.entity.SysUserEntity;
-import com.cxf.modules.sys.form.SysLoginForm;
 import com.cxf.modules.sys.service.SysCaptchaService;
 import com.cxf.modules.sys.service.SysUserService;
 import com.cxf.modules.sys.service.SysUserTokenService;
@@ -55,17 +54,17 @@ public class SysLoginController extends AbstractController {
 	 *　ログイン
 	 */
 	@PostMapping("/sys/login")
-	public Map<String, Object> login(@RequestBody SysLoginForm form)throws IOException {
-		boolean captcha = sysCaptchaService.validate(form.getUuid(), form.getCaptcha());
+	public Map<String, Object> login(@RequestBody Map<String,String> loginForm)throws IOException {
+		boolean captcha = sysCaptchaService.validate(loginForm.get("uuid"), loginForm.get("captcha"));
 		if(!captcha){
 			return R.error("認証コードは不正です");
 		}
 
 		//ユーザー情報
-		SysUserEntity user = sysUserService.queryByUserName(form.getUsername());
+		SysUserEntity user = sysUserService.queryByUserName(loginForm.get("username"));
 
 		//アカウントが存在しない、パスワードが間違った場合
-		if(user == null || !user.getPassword().equals(new Sha256Hash(form.getPassword(), user.getSalt()).toHex())) {
+		if(user == null || !user.getPassword().equals(new Sha256Hash(loginForm.get("password"), user.getSalt()).toHex())) {
 			return R.error("アカウントまたはパスワードは不正です");
 		}
 

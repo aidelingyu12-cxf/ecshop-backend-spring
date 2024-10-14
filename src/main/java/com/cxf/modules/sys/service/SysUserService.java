@@ -10,6 +10,7 @@ package com.cxf.modules.sys.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cxf.common.utils.PageUtils;
+import com.cxf.common.utils.PageUtil;
 import com.cxf.modules.sys.entity.SysUserEntity;
 
 import java.util.List;
@@ -24,7 +25,8 @@ import java.util.Map;
 public interface SysUserService extends IService<SysUserEntity> {
 
 	PageUtils queryPage(Map<String, Object> params);
-
+	
+	PageUtil queryByPage(Map<String, String> params);
 	/**
 	 * 查询用户的所有权限
 	 * @param userId  用户ID

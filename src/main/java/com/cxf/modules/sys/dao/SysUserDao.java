@@ -1,6 +1,7 @@
 package com.cxf.modules.sys.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.cxf.common.utils.PageUtil;
 import com.cxf.modules.sys.entity.SysUserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +14,17 @@ import java.util.List;
  */
 @Mapper
 public interface SysUserDao extends BaseMapper<SysUserEntity> {
+	
+	/**
+	 * ユーザーリストを抽出する
+	 * @param userId  用户ID
+	 */
+	List<SysUserEntity> getUsersByPage(PageUtil pageUtil);
+	
+	/**
+	 * ユーザー総数を抽出する
+	 */
+	Integer getCount();
 	
 	/**
 	 * 查询用户的所有权限

@@ -1,14 +1,7 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package com.cxf.modules.sys.controller;
 
 import com.cxf.common.utils.Constant;
+import com.cxf.common.utils.PageUtil;
 import com.cxf.common.utils.PageUtils;
 import com.cxf.common.utils.R;
 import com.cxf.common.validator.Assert;
@@ -16,7 +9,6 @@ import com.cxf.common.validator.ValidatorUtils;
 import com.cxf.common.validator.group.AddGroup;
 import com.cxf.common.validator.group.UpdateGroup;
 import com.cxf.modules.sys.entity.SysUserEntity;
-import com.cxf.modules.sys.form.PasswordForm;
 import com.cxf.modules.sys.service.SysUserRoleService;
 import com.cxf.modules.sys.service.SysUserService;
 import org.apache.commons.lang.ArrayUtils;
@@ -31,9 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 系统用户
+ * システムユーザー
  *
- * @author Mark sunlightcs@gmail.com
+ * @author cxf
  */
 @RestController
 @RequestMapping("/sys/user")
@@ -44,19 +36,34 @@ public class SysUserController extends AbstractController {
 	private SysUserRoleService sysUserRoleService;
 
 
+//	/**
+//	 * ユーザーリスト
+//	 */
+//	@GetMapping("/list")
+//	@RequiresPermissions("sys:user:list")
+//	public R list(@RequestParam Map<String, Object> params){
+//		//スーパーアカウントだけ、アクセスできる
+//		if(getUserId() != Constant.SUPER_ADMIN){
+//			params.put("createUserId", getUserId());
+//		}
+//		PageUtils page = sysUserService.queryPage(params);
+//
+//		return R.ok().put("page", page);
+//	}
+	
 	/**
-	 * 所有用户列表
+	 * ユーザーリスト
 	 */
 	@GetMapping("/list")
 	@RequiresPermissions("sys:user:list")
-	public R list(@RequestParam Map<String, Object> params){
-		//只有超级管理员，才能查看所有管理员列表
-		if(getUserId() != Constant.SUPER_ADMIN){
-			params.put("createUserId", getUserId());
-		}
-		PageUtils page = sysUserService.queryPage(params);
+	public R list(@RequestParam Map<String, String> params){
+		//スーパーアカウントだけ、アクセスできる
+//		if(getUserId() != Constant.SUPER_ADMIN){
+//			params.put("createUserId", getUserId());
+//		}
+		PageUtil p = sysUserService.queryByPage(params);
 
-		return R.ok().put("page", page);
+		return R.ok().put("page", p);
 	}
 	
 	/**
@@ -68,17 +75,17 @@ public class SysUserController extends AbstractController {
 	}
 	
 	/**
-	 * パスワードを修正する
+	 * パスワードを変える
 	 */
-	@SysLog("修改密码")
+	@SysLog("パスワードを変える")
 	@PostMapping("/password")
-	public R password(@RequestBody PasswordForm form){
-		Assert.isBlank(form.getNewPassword(), "新しいパスワードがヌルです！");
+	public R password(@RequestBody Map<String, String> passwordForm){
+		Assert.isBlank(passwordForm.get("newPassword"), "新しいパスワードがヌルです！");
 		
 		//sha256
-		String password = new Sha256Hash(form.getPassword(), getUser().getSalt()).toHex();
+		String password = new Sha256Hash(passwordForm.get("password"), getUser().getSalt()).toHex();
 		//sha256
-		String newPassword = new Sha256Hash(form.getNewPassword(), getUser().getSalt()).toHex();		
+		String newPassword = new Sha256Hash(passwordForm.get("newPassword"), getUser().getSalt()).toHex();		
 		//パスワードを更新する
 		boolean flag = sysUserService.updatePassword(getUserId(), password, newPassword);
 		if(!flag){

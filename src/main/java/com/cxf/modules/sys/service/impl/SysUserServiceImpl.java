@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cxf.common.exception.RRException;
 import com.cxf.common.utils.Constant;
+import com.cxf.common.utils.PageUtil;
 import com.cxf.common.utils.PageUtils;
 import com.cxf.common.utils.Query;
 import com.cxf.modules.sys.dao.SysUserDao;
@@ -48,7 +49,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	private SysRoleService sysRoleService;
 	@Resource
 	private SysUserDao sysUserDao;
-
+	
 	@Override
 	public PageUtils queryPage(Map<String, Object> params) {
 		String username = (String)params.get("username");
@@ -63,6 +64,32 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
 		return new PageUtils(page);
 	}
+	
+	@Override
+	public PageUtil queryByPage(Map<String, String> params) {
+		//現在のページ
+		int curPage = Integer.parseInt(params.get("page"));
+		if(curPage >= 1)
+			curPage = curPage-1;
+		//ページごとに表す数
+		int pageSize = Integer.parseInt(params.get("limit"));
+		//リスト総数
+		int totalCount = sysUserDao.getCount();
+		//ページ総数
+		int totalPage = (int)Math.ceil((double)totalCount/pageSize);
+		PageUtil pageUtil = new PageUtil();
+		//ページオブジェクトを設定する
+		pageUtil.setCurPage(curPage);
+		pageUtil.setPageSize(pageSize);
+		pageUtil.setTotalCount(totalCount);
+		pageUtil.setTotalPage(totalPage);
+		//
+		List<SysUserEntity> userList = sysUserDao.getUsersByPage(pageUtil);
+		//結果リスト
+		pageUtil.setList(userList);
+		return pageUtil;
+	}
+	
 
 	@Override
 	public List<String> queryAllPerms(Long userId) {
