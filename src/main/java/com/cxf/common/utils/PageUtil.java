@@ -31,21 +31,13 @@ public class PageUtil implements Serializable{
 	 * 結果リスト
 	 */
 	private List<?> list;
-
-//	/**
-//	 * 分页
-//	 * @param list        結果リスト
-//	 * @param totalCount  リスト総数
-//	 * @param pageSize    ページごとに表す数
-//	 * @param curPage    現在のページ
-//	 */
-//	public PageUtil(List<?> list, int totalCount, int pageSize, int curPage) {
-//		this.list = list;
-//		this.totalCount = totalCount;
-//		this.pageSize = pageSize;
-//		this.curPage = curPage;
-//		this.totalPage = (int)Math.ceil((double)totalCount/pageSize);
-//	}
+	
+	public PageUtil(int curPage, int pageSize, int totalCount) {
+		this.curPage = curPage;
+		this.pageSize = pageSize;
+		this.totalCount = totalCount;
+		this.totalPage = (int)Math.ceil((double)totalCount/pageSize);
+	}
 
 	/**
 	 * @return the totalCount

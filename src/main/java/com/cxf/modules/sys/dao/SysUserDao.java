@@ -19,12 +19,12 @@ public interface SysUserDao extends BaseMapper<SysUserEntity> {
 	 * ユーザーリストを抽出する
 	 * @param userId  用户ID
 	 */
-	List<SysUserEntity> getUsersByPage(PageUtil pageUtil);
+	List<SysUserEntity> getUsersByPage(String userName, Integer curPage, Integer pageSize);
 	
 	/**
 	 * ユーザー総数を抽出する
 	 */
-	Integer getCount();
+	Integer getCount(String userName);
 	
 	/**
 	 * 查询用户的所有权限

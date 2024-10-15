@@ -26,12 +26,23 @@
 	<!-- ユーザーリストを抽出する --> 
 	<select id="getUsersByPage" resultType="com.cxf.modules.sys.entity.SysUserEntity">
 		SELECT user_id,username,password,salt,email,mobile,status,create_user_id,
-		create_time FROM sys_user LIMIT #{curPage},#{pageSize}
+		create_time FROM sys_user 
+		<choose>
+			<when test="userName != null and userName != ''">
+				where username = #{userName}
+			</when>
+		</choose>
+		LIMIT #{curPage},#{pageSize}
 	</select>
 	
 	<!-- ユーザー総数を抽出する --> 
-	<select id="getCount" resultType="Integer">
+	<select id="getCount" parameterType="String" resultType="Integer">
 		SELECT COUNT(1) FROM sys_user
+		<choose>
+			<when test="userName != null and userName != ''">
+				where username = #{userName}
+			</when>
+		</choose>
 	</select>
 	
 	

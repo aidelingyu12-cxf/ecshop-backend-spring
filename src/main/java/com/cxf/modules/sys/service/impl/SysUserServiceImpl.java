@@ -72,20 +72,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 		if(curPage >= 1)
 			curPage = curPage-1;
 		//ページごとに表す数
+		String userName = params.get("username");
+		//ページごとに表す数
 		int pageSize = Integer.parseInt(params.get("limit"));
 		//リスト総数
-		int totalCount = sysUserDao.getCount();
-		//ページ総数
-		int totalPage = (int)Math.ceil((double)totalCount/pageSize);
-		PageUtil pageUtil = new PageUtil();
-		//ページオブジェクトを設定する
-		pageUtil.setCurPage(curPage);
-		pageUtil.setPageSize(pageSize);
-		pageUtil.setTotalCount(totalCount);
-		pageUtil.setTotalPage(totalPage);
-		//
-		List<SysUserEntity> userList = sysUserDao.getUsersByPage(pageUtil);
+		int totalCount = sysUserDao.getCount(userName);
+		PageUtil pageUtil = new PageUtil(curPage, pageSize, totalCount);
 		//結果リスト
+		List<SysUserEntity> userList = sysUserDao.getUsersByPage(userName, curPage, pageSize);
 		pageUtil.setList(userList);
 		return pageUtil;
 	}

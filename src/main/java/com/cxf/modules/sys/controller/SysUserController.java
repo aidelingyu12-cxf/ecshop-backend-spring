@@ -34,22 +34,6 @@ public class SysUserController extends AbstractController {
 	private SysUserService sysUserService;
 	@Autowired
 	private SysUserRoleService sysUserRoleService;
-
-
-//	/**
-//	 * ユーザーリスト
-//	 */
-//	@GetMapping("/list")
-//	@RequiresPermissions("sys:user:list")
-//	public R list(@RequestParam Map<String, Object> params){
-//		//スーパーアカウントだけ、アクセスできる
-//		if(getUserId() != Constant.SUPER_ADMIN){
-//			params.put("createUserId", getUserId());
-//		}
-//		PageUtils page = sysUserService.queryPage(params);
-//
-//		return R.ok().put("page", page);
-//	}
 	
 	/**
 	 * ユーザーリスト
