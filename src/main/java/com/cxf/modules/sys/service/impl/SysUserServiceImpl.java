@@ -104,11 +104,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	@Transactional
 	public void saveUser(SysUserEntity user) {
 		user.setCreateTime(new Date());
-		//sha256加密
+		//sha256
 		String salt = RandomStringUtils.randomAlphanumeric(20);
 		user.setPassword(new Sha256Hash(user.getPassword(), salt).toHex());
 		user.setSalt(salt);
-		this.save(user);
+		sysUserDao.save(user);
 		
 		//检查角色是否越权
 		checkRole(user);
@@ -153,18 +153,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	}
 	
 	/**
-	 * 检查角色是否越权
+	 * ユーザー権限をチェックする
 	 */
 	private void checkRole(SysUserEntity user){
 		if(user.getRoleIdList() == null || user.getRoleIdList().size() == 0){
 			return;
 		}
-		//如果不是超级管理员，则需要判断用户的角色是否自己创建
+		//管理者の場合、リターンする
 		if(user.getCreateUserId() == Constant.SUPER_ADMIN){
 			return ;
 		}
 		
-		//查询用户创建的角色列表
+		//ユーザー役割
 		List<Long> roleIdList = sysRoleService.queryRoleIdList(user.getCreateUserId());
 
 		//判断是否越权

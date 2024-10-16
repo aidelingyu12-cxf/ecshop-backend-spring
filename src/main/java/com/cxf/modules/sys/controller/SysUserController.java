@@ -95,13 +95,13 @@ public class SysUserController extends AbstractController {
 	}
 	
 	/**
-	 * 保存用户
+	 * ユーザー情報を保存する
 	 */
-	@SysLog("保存用户")
+	@SysLog("ユーザー情報を保存する")
 	@PostMapping("/save")
 	@RequiresPermissions("sys:user:save")
 	public R save(@RequestBody SysUserEntity user){
-		ValidatorUtils.validateEntity(user, AddGroup.class);
+		//ValidatorUtils.validateEntity(user, AddGroup.class);
 		
 		user.setCreateUserId(getUserId());
 		sysUserService.saveUser(user);

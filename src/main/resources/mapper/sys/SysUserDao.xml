@@ -50,4 +50,10 @@
 	<update id="updatePassword">
 		update sys_user set password=#{password} where user_id=#{userId}
 	</update>
+	
+	<!-- ユーザー情報を保存する -->
+	<insert id="save" parameterType="com.cxf.modules.sys.entity.SysUserEntity">
+		insert into sys_user(username,password,salt,email,mobile,status,create_user_id,create_time) 
+		value(#{username}, #{password}, #{salt}, #{email}, #{mobile}, #{status}, #{createUserId}, #{createTime})
+	</insert>
 </mapper>

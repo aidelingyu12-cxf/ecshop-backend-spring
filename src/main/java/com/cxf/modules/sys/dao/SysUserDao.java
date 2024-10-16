@@ -51,5 +51,9 @@ public interface SysUserDao extends BaseMapper<SysUserEntity> {
 	 * ユーザIdによって、パスワードを更新する
 	 */
 	Integer updatePassword(Long userId, String password);
-
+	
+	/**
+	 * ユーザ情報を保存する
+	 */
+	void save(SysUserEntity sysUserEntity);
 }
