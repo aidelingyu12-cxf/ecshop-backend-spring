@@ -56,4 +56,9 @@ public interface SysUserDao extends BaseMapper<SysUserEntity> {
 	 * ユーザ情報を保存する
 	 */
 	void save(SysUserEntity sysUserEntity);
+	
+	/**
+	 * ユーザ情報を削除する
+	 */
+	void removeByIds(List<Long> userId);
 }

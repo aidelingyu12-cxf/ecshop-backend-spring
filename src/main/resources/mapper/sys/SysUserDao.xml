@@ -20,7 +20,7 @@
 	
 	<!-- ユーザネームによって、ユーザー情報を抽出する --> 
 	<select id="queryByUserName" resultType="com.cxf.modules.sys.entity.SysUserEntity">
-		select * from sys_user where username = #{username}
+		select * from sys_user where username = #{username} and delete_flag = 0
 	</select>
 	
 	<!-- ユーザーリストを抽出する --> 
@@ -29,8 +29,11 @@
 		create_time FROM sys_user 
 		<choose>
 			<when test="userName != null and userName != ''">
-				where username = #{userName}
+				where username = #{userName} and delete_flag = 0
 			</when>
+			<otherwise>
+				where delete_flag = 0
+			</otherwise>
 		</choose>
 		LIMIT #{curPage},#{pageSize}
 	</select>
@@ -40,7 +43,7 @@
 		SELECT COUNT(1) FROM sys_user
 		<choose>
 			<when test="userName != null and userName != ''">
-				where username = #{userName}
+				where username = #{userName} and delete_flag = 0
 			</when>
 		</choose>
 	</select>
@@ -48,7 +51,7 @@
 	
 	<!-- ログインパスワードを更新する -->
 	<update id="updatePassword">
-		update sys_user set password=#{password} where user_id=#{userId}
+		update sys_user set password=#{password} where user_id=#{userId} and delete_flag = 0
 	</update>
 	
 	<!-- ユーザー情報を保存する -->
@@ -56,4 +59,12 @@
 		insert into sys_user(username,password,salt,email,mobile,status,create_user_id,create_time) 
 		value(#{username}, #{password}, #{salt}, #{email}, #{mobile}, #{status}, #{createUserId}, #{createTime})
 	</insert>
+	
+	<!-- ユーザーを削除する -->
+	<update id="removeByIds" parameterType="java.util.List">
+		update sys_user set delete_flag=1 where user_id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
 </mapper>

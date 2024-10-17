@@ -13,6 +13,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.cxf.common.validator.group.AddGroup;
 import com.cxf.common.validator.group.UpdateGroup;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -35,6 +38,7 @@ public class SysUserEntity implements Serializable {
 	 * 用户ID
 	 */
 	@TableId
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long userId;
 
 	/**
@@ -86,5 +90,11 @@ public class SysUserEntity implements Serializable {
 	 * 创建时间
 	 */
 	private Date createTime;
+	
+	/**
+	 * 创建时间
+	 */
+	private Integer delete_flag;
+	
 
 }

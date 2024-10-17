@@ -45,9 +45,9 @@ public class SysUserController extends AbstractController {
 //		if(getUserId() != Constant.SUPER_ADMIN){
 //			params.put("createUserId", getUserId());
 //		}
-		PageUtil p = sysUserService.queryByPage(params);
+		PageUtil page = sysUserService.queryByPage(params);
 
-		return R.ok().put("page", p);
+		return R.ok().put("page", page);
 	}
 	
 	/**
@@ -132,11 +132,11 @@ public class SysUserController extends AbstractController {
 	@RequiresPermissions("sys:user:delete")
 	public R delete(@RequestBody Long[] userIds){
 		if(ArrayUtils.contains(userIds, 1L)){
-			return R.error("系统管理员不能删除");
+			return R.error("管理者のアカウントが削除できません");
 		}
 		
 		if(ArrayUtils.contains(userIds, getUserId())){
-			return R.error("当前用户不能删除");
+			return R.error("現ユーザー情報が削除できません");
 		}
 		
 		sysUserService.deleteBatch(userIds);
