@@ -1,11 +1,3 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package com.cxf.modules.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -25,9 +17,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 系统用户
+ * システムユーザー
  *
- * @author Mark sunlightcs@gmail.com
+ * @author cxf
  */
 @Data
 @TableName("sys_user")
@@ -35,7 +27,7 @@ public class SysUserEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 用户ID
+	 * ユーザーID
 	 */
 	@TableId
 	@JsonSerialize(using = ToStringSerializer.class)
@@ -54,7 +46,7 @@ public class SysUserEntity implements Serializable {
 	private String password;
 
 	/**
-	 * 盐
+	 * 
 	 */
 	private String salt;
 
@@ -66,33 +58,33 @@ public class SysUserEntity implements Serializable {
 	private String email;
 
 	/**
-	 * 手机号
+	 * 携帯番号
 	 */
 	private String mobile;
 
 	/**
-	 * 状态  0：禁用   1：正常
+	 * ステータス  0：禁止   1：正常
 	 */
 	private Integer status;
 
 	/**
-	 * 角色ID列表
+	 * 役割ID列表
 	 */
 	@TableField(exist=false)
 	private List<Long> roleIdList;
 
 	/**
-	 * 创建者ID
+	 * 作成者ID
 	 */
 	private Long createUserId;
 
 	/**
-	 * 创建时间
+	 * 作成時間
 	 */
 	private Date createTime;
 	
 	/**
-	 * 创建时间
+	 * 削除時間
 	 */
 	private Integer delete_flag;
 	

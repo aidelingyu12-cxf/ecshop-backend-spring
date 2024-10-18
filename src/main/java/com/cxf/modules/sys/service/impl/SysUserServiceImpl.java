@@ -125,7 +125,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 		}else{
 			user.setPassword(new Sha256Hash(user.getPassword(), user.getSalt()).toHex());
 		}
-		this.updateById(user);
+		sysUserDao.updateUser(user);
 		
 		//检查角色是否越权
 		checkRole(user);

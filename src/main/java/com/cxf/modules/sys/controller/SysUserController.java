@@ -2,7 +2,6 @@ package com.cxf.modules.sys.controller;
 
 import com.cxf.common.utils.Constant;
 import com.cxf.common.utils.PageUtil;
-import com.cxf.common.utils.PageUtils;
 import com.cxf.common.utils.R;
 import com.cxf.common.validator.Assert;
 import com.cxf.common.validator.ValidatorUtils;
@@ -110,13 +109,13 @@ public class SysUserController extends AbstractController {
 	}
 	
 	/**
-	 * 修改用户
+	 * ユーザー情報を更新する
 	 */
-	@SysLog("修改用户")
+	@SysLog("ユーザー更新")
 	@PostMapping("/update")
 	@RequiresPermissions("sys:user:update")
 	public R update(@RequestBody SysUserEntity user){
-		ValidatorUtils.validateEntity(user, UpdateGroup.class);
+		//ValidatorUtils.validateEntity(user, UpdateGroup.class);
 
 		user.setCreateUserId(getUserId());
 		sysUserService.update(user);
@@ -125,9 +124,9 @@ public class SysUserController extends AbstractController {
 	}
 	
 	/**
-	 * 删除用户
+	 * ユーザーを削除する
 	 */
-	@SysLog("删除用户")
+	@SysLog("ユーザー削除")
 	@PostMapping("/delete")
 	@RequiresPermissions("sys:user:delete")
 	public R delete(@RequestBody Long[] userIds){

@@ -67,4 +67,10 @@
 			#{item}
 		</foreach>
 	</update>
+	
+	<!-- ユーザーを更新する -->
+	<update id="updateUser" parameterType="com.cxf.modules.sys.entity.SysUserEntity">
+		update sys_user set username=#{username}, password=#{password}, email=#{email},
+		mobile=#{mobile}, salt=#{salt}, status=#{status} , create_user_id=#{createUserId} where user_id=#{userId}
+	</update>
 </mapper>

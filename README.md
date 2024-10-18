@@ -1,3 +1,11 @@
+**出会った問題** 
+バックエンドのUserIdの戻り値のタイプはLong、長さは20桁。
+フロントエンド側が16桁の数字を処理できない、末尾の4桁は0になった。
+解決策：
+ENTITYのクラスに下記のコードを追加し、戻り値のタイプをSTRINGに変換する
+@JsonSerialize(using = ToStringSerializer.class)
+
+
 **项目说明** 
 
 <br>
